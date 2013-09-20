@@ -1,0 +1,30 @@
+@(loginForm: play.api.data.Form[(String,String)], errorMsg: Option[String] = None)(implicit request: play.api.mvc.RequestHeader)
+
+@import securesocial.core.IdentityProvider
+@import Http.Context.Implicit
+@import helper._
+@import securesocial.core.Registry
+@import securesocial.core.AuthenticationMethod._
+@import securesocial.core.providers.UsernamePasswordProvider.UsernamePassword
+
+@main("SecureSocial - Sample Protected Page") {
+
+<p>
+<center>
+  @defining( Registry.providers.all.values.filter( _.id != UsernamePassword) ) { externalProviders =>
+
+        @if( externalProviders.size > 0 ) {
+            <div class="clearfix">
+                <p>
+                    @for(p <- externalProviders) {
+                        @provider(request, p.id)
+                    }
+                </p>
+            </div>
+        }
+    }
+    
+    <br/>
+</center>
+</p>
+}

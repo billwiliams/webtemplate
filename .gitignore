@@ -1,0 +1,10 @@
+*.swp
+.cache
+.DS_store
+.target/*
+logs/application.log
+model/*.csv
+.settings/*
+project/target/*
+target/*
+project/project/*
