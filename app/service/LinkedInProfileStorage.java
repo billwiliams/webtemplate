@@ -22,22 +22,25 @@ class LinkedInProfileStorage extends ProfileStorage
 		
 		User neenerUser = new User();
 				
-		neenerUser.linkedin_first = user.firstName();
-		neenerUser.linkedin_last = user.lastName();
-		neenerUser.linkedin_id = user.id().id();
-		
-		if (!user.avatarUrl().isEmpty())
-			neenerUser.linkedin_pic_url = user.avatarUrl().get();
-		
-		neenerUser.linkedin_access = user.oAuth1Info().get().token();
-		
-		if (!user.email().isEmpty())
-			neenerUser.linkedin_email = user.email().get();
-		
-		neenerUser.linkedin_auth = user.authMethod().method();
-		neenerUser.linkedin_secret = user.oAuth1Info().get().secret();
-		
-		neenerUser.save();
+		if (User.findByLinkedInId(user.id().id()) == null)
+		{
+			neenerUser.linkedin_first = user.firstName();
+			neenerUser.linkedin_last = user.lastName();
+			neenerUser.linkedin_id = user.id().id();
+			
+			if (!user.avatarUrl().isEmpty())
+				neenerUser.linkedin_pic_url = user.avatarUrl().get();
+			
+			neenerUser.linkedin_access = user.oAuth1Info().get().token();
+			
+			if (!user.email().isEmpty())
+				neenerUser.linkedin_email = user.email().get();
+			
+			neenerUser.linkedin_auth = user.authMethod().method();
+			neenerUser.linkedin_secret = user.oAuth1Info().get().secret();
+			
+			neenerUser.save();
+		}
 		
         return true;
 	}

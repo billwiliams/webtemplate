@@ -23,17 +23,20 @@ class FacebookProfileStorage extends ProfileStorage
 	@Override
 	public boolean save(Identity user) {
 		
-		User neenerUser = new User();
-				
-		neenerUser.facebook_first = user.firstName();
-		neenerUser.facebook_last = user.lastName();
-		neenerUser.facebook_id = user.id().id();
-		neenerUser.facebook_pic_url = user.avatarUrl().get();
-		neenerUser.facebook_access = user.oAuth2Info().get().accessToken();
-		neenerUser.facebook_email = user.email().get();
-		neenerUser.facebook_auth = user.authMethod().method();
-
-		neenerUser.save();
+		if (User.findByFacebookId(user.id().id()) == null)
+		{
+			User neenerUser = new User();
+					
+			neenerUser.facebook_first = user.firstName();
+			neenerUser.facebook_last = user.lastName();
+			neenerUser.facebook_id = user.id().id();
+			neenerUser.facebook_pic_url = user.avatarUrl().get();
+			neenerUser.facebook_access = user.oAuth2Info().get().accessToken();
+			neenerUser.facebook_email = user.email().get();
+			neenerUser.facebook_auth = user.authMethod().method();
+	
+			neenerUser.save();
+		}
 
         return true;
 	}
